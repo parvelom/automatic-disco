@@ -1,0 +1,86 @@
+--Consultas básicas (SELECT, FROM, WHERE, JOIN, ORDER BY, GROUP BY):
+sql
+-- Obtener todos los clientes
+SELECT * FROM clients;
+
+-- Obtener las pólizas activas de un cliente específico
+SELECT * 
+FROM policies 
+WHERE client_id = 1 AND status = 'Active';
+
+-- Obtener todas las reclamaciones superiores a 5000€
+SELECT * 
+FROM claims 
+WHERE amount > 5000 
+ORDER BY amount DESC;
+
+-- Obtener todas las pólizas y sus clientes (JOIN)
+SELECT c.client_id, c.name, p.policy_id, p.insurance_type, p.status 
+FROM clients c
+JOIN policies p ON c.client_id = p.client_id;
+
+-- Obtener el número de pólizas por tipo de seguro
+SELECT insurance_type, COUNT(*) AS total_policies
+FROM policies
+GROUP BY insurance_type;
+
+-- agregaciones 
+-- Total de reclamaciones por cliente
+SELECT client_id, SUM(amount) AS total_claims
+FROM claims
+GROUP BY client_id;
+
+-- Promedio del importe de las reclamaciones
+SELECT AVG(amount) AS avg_claim_amount
+FROM claims;
+
+-- Cliente con la reclamación de mayor importe
+SELECT TOP 1 client_id, amount 
+FROM claims
+ORDER BY amount DESC;
+
+-- Número total de pólizas activas
+SELECT COUNT(*) AS active_policies
+FROM policies
+WHERE status = 'Active';
+
+--subconsultas y correlaciones
+-- Obtener los clientes que han hecho al menos una reclamación
+SELECT * FROM clients
+WHERE client_id IN (SELECT DISTINCT client_id FROM claims);
+
+-- Obtener el cliente con el mayor número de pólizas activas
+SELECT TOP 1 client_id, COUNT(*) AS num_policies
+FROM policies
+WHERE status = 'Active'
+GROUP BY client_id
+ORDER BY num_policies DESC;
+
+-- Obtener el tipo de póliza más caro en promedio
+SELECT insurance_type
+FROM policies
+WHERE premium = (SELECT MAX(premium) FROM policies);
+
+--funciones fechas cadenas 
+
+-- Ordenar las reclamaciones por importe y asignar un ranking
+SELECT claim_id, client_id, amount,
+       RANK() OVER (ORDER BY amount DESC) AS rank_claim
+FROM claims;
+
+-- Calcular el promedio acumulado del importe de reclamaciones por cliente
+SELECT client_id, claim_id, amount, 
+       AVG(amount) OVER (PARTITION BY client_id ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS running_avg
+FROM claims;
+
+-- Obtener el nombre y solo el primer apellido del cliente
+SELECT name, LEFT (name, CHARINDEX(' ', name)) AS first_name
+FROM clients;
+
+-- Formatear la fecha de reclamación como ‘YYYY-MM’
+SELECT claim_id, FORMAT(date, 'yyyy-MM') AS claim_month
+FROM claims;
+
+-- Extraer el año y el mes de una reclamación
+SELECT claim_id, YEAR(date) AS claim_year, MONTH(date) AS claim_month
+FROM claims;
