@@ -1,0 +1,5 @@
+product_id,name,category,risk_level
+1,Auto Insurance,Vehicles,Medium
+2,Home Insurance,Real Estate,High
+3,Health Insurance,Health,Medium
+4,Life Insurance,Personal,Low

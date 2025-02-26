@@ -1,0 +1,4 @@
+external_data_id,type,description,source
+1,Demographic,Income and occupation data,INE Spain
+2,Economic,Unemployment index,European Central Bank
+3,Meteorological,Storm history,Meteorological Agency

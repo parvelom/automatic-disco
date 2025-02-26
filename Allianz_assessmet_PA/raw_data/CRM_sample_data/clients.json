@@ -1,0 +1,23 @@
+[
+    {
+        "Client_ID": 1,
+        "Client_Name": "John Doe",
+        "Address": "123 Main St",
+        "Phone": "555-1234",
+        "Birth_Date": "1985-06-15"
+    },
+    {
+        "Client_ID": 2,
+        "Client_Name": "Jane Smith",
+        "Address": "456 Oak Ave",
+        "Phone": "555-5678",
+        "Birth_Date": "1990-09-21"
+    },
+    {
+        "Client_ID": 3,
+        "Client_Name": "Robert Brown",
+        "Address": "789 Pine Rd",
+        "Phone": "555-8765",
+        "Birth_Date": "1978-03-11"
+    }
+]

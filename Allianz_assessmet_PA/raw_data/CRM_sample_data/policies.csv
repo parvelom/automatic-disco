@@ -1,0 +1,4 @@
+Policy_ID,Client_ID,Policy_Type,Start_Date,End_Date,Premium_Amount
+101,1,Auto,2024-01-01,2025-01-01,1200
+102,2,Home,2024-02-01,2025-02-01,800
+103,3,Life,2023-05-01,2043-05-01,1500

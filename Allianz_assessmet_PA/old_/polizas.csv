@@ -1,0 +1,5 @@
+id_poliza,id_cliente,tipo_seguro,cobertura,prima,estado
+101,1,Auto,Cobertura Total,1200.0,Activa
+102,2,Hogar,Daños y Robo,800.0,Activa
+103,3,Salud,Plan Familiar,1500.0,Expirada
+104,4,Vida,Cobertura Completa,2000.0,Activa

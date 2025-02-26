@@ -1,0 +1,72 @@
+Table Hub_Clients {
+  Client_ID UUID [pk]
+  Client_Name VARCHAR
+  Address VARCHAR
+  Phone VARCHAR
+  Birth_Date DATE
+  Created_At TIMESTAMP
+}
+
+Table Hub_Policies {
+  Policy_ID UUID [pk]
+  Client_ID UUID [ref: > Hub_Clients.Client_ID]
+  Policy_Type VARCHAR
+  Start_Date DATE
+  End_Date DATE
+  Created_At TIMESTAMP
+}
+
+Table Hub_Claims {
+  Claim_ID UUID [pk]
+  Policy_ID UUID [ref: > Hub_Policies.Policy_ID]
+  Claim_Date DATE
+  Cause VARCHAR
+  Created_At TIMESTAMP
+}
+
+Table Hub_External_Data {
+  External_Data_ID UUID [pk]
+  Data_Type VARCHAR
+  Data_Source VARCHAR
+  Created_At TIMESTAMP
+}
+
+Table Link_Client_Policy {
+  Client_ID UUID [ref: > Hub_Clients.Client_ID]
+  Policy_ID UUID [ref: > Hub_Policies.Policy_ID]
+  Created_At TIMESTAMP [pk, unique]
+}
+
+Table Link_Policy_Claim {
+  Policy_ID UUID [ref: > Hub_Policies.Policy_ID]
+  Claim_ID UUID [ref: > Hub_Claims.Claim_ID]
+  Created_At TIMESTAMP [pk, unique]
+}
+
+Table Sat_Clients {
+  Client_ID UUID [ref: > Hub_Clients.Client_ID]
+  Risk_Score FLOAT
+  Income_Level VARCHAR
+  Last_Updated_At TIMESTAMP
+}
+
+Table Sat_Policies {
+  Policy_ID UUID [ref: > Hub_Policies.Policy_ID]
+  Premium_Amount DECIMAL
+  Coverage_Details TEXT
+  Last_Updated_At TIMESTAMP
+}
+
+Table Sat_Claims {
+  Claim_ID UUID [ref: > Hub_Claims.Claim_ID]
+  Claim_Amount DECIMAL
+  Claim_Status VARCHAR
+  Last_Updated_At TIMESTAMP
+}
+
+Table Sat_External_Data {
+  External_Data_ID UUID [ref: > Hub_External_Data.External_Data_ID]
+  Economic_Index FLOAT
+  Weather_Conditions TEXT
+  Last_Updated_At TIMESTAMP
+}

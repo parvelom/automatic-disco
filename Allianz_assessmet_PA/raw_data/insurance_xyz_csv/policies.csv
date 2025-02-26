@@ -1,0 +1,5 @@
+policy_id,client_id,insurance_type,coverage,premium,status
+101,1,Auto,Full Coverage,1200.0,Active
+102,2,Home,Damage and Theft,800.0,Active
+103,3,Health,Family Plan,1500.0,Expired
+104,4,Life,Complete Coverage,2000.0,Active

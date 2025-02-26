@@ -1,0 +1,4 @@
+External_Data_ID,Data_Type,Data_Source,Economic_Index,Weather_Conditions
+301,Economic,National Bureau,7.2,
+302,Weather,Weather Channel,,Sunny
+303,Demographics,Census Bureau,,

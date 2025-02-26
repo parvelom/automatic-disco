@@ -1,0 +1,26 @@
+[
+    {
+        "Claim_ID": 201,
+        "Policy_ID": 101,
+        "Claim_Date": "2024-01-15",
+        "Cause": "Car accident",
+        "Claim_Amount": 5000,
+        "Claim_Status": "Approved"
+    },
+    {
+        "Claim_ID": 202,
+        "Policy_ID": 102,
+        "Claim_Date": "2024-02-10",
+        "Cause": "House fire",
+        "Claim_Amount": 20000,
+        "Claim_Status": "Pending"
+    },
+    {
+        "Claim_ID": 203,
+        "Policy_ID": 103,
+        "Claim_Date": "2024-03-05",
+        "Cause": "Medical emergency",
+        "Claim_Amount": 10000,
+        "Claim_Status": "Rejected"
+    }
+]

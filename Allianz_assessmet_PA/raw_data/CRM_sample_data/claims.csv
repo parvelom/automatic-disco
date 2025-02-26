@@ -1,0 +1,4 @@
+Claim_ID,Policy_ID,Claim_Date,Cause,Claim_Amount,Claim_Status
+201,101,2024-01-15,Car accident,5000,Approved
+202,102,2024-02-10,House fire,20000,Pending
+203,103,2024-03-05,Medical emergency,10000,Rejected

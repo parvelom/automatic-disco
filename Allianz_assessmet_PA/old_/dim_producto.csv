@@ -1,0 +1,5 @@
+id_producto,nombre,categoria,riesgo_producto
+1,Seguro de Auto,Vehículos,Medio
+2,Seguro de Hogar,Inmuebles,Alto
+3,Seguro de Salud,Salud,Medio
+4,Seguro de Vida,Personas,Bajo

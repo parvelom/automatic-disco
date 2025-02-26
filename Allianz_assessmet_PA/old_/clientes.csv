@@ -1,0 +1,5 @@
+id_cliente,nombre,direccion,telefono,edad,ingresos,riesgo_cliente
+1,Juan Pérez,"Madrid, España",600123456,35,50000.0,Bajo
+2,Ana Gómez,"Barcelona, España",611234567,42,70000.0,Medio
+3,Carlos Ruiz,"Valencia, España",622345678,29,45000.0,Alto
+4,Elena Fernández,"Sevilla, España",633456789,50,80000.0,Bajo

@@ -1,0 +1,4 @@
+claim_hk,claim_status,claim_amount,fraud_detected,load_date,record_source
+1001,Approved,5000.0,False,2025-02-19,System_A
+1002,Pending,3200.5,False,2025-02-20,System_B
+1003,Rejected,7200.0,True,2025-02-21,System_C

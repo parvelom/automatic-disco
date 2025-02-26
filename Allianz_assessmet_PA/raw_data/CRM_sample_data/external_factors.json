@@ -1,0 +1,23 @@
+[
+    {
+        "External_Data_ID": 301,
+        "Data_Type": "Economic",
+        "Data_Source": "National Bureau",
+        "Economic_Index": 7.2,
+        "Weather_Conditions": null
+    },
+    {
+        "External_Data_ID": 302,
+        "Data_Type": "Weather",
+        "Data_Source": "Weather Channel",
+        "Economic_Index": NaN,
+        "Weather_Conditions": "Sunny"
+    },
+    {
+        "External_Data_ID": 303,
+        "Data_Type": "Demographics",
+        "Data_Source": "Census Bureau",
+        "Economic_Index": NaN,
+        "Weather_Conditions": null
+    }
+]

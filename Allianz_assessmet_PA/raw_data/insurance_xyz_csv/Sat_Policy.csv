@@ -1,0 +1,4 @@
+policy_hk,policy_type,coverage_amount,premium,policy_status,load_date,record_source
+2001,Auto,25000.0,150.0,Active,2025-02-19,System_X
+2002,Home,50000.0,300.0,Lapsed,2025-02-20,System_Y
+2003,Health,150000.0,500.0,Expired,2025-02-21,System_Z

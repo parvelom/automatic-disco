@@ -1,0 +1,5 @@
+client_id,name,address,phone,age,income,risk_level
+1,John Perez,"Madrid, Spain",600123456,35,50000.0,Low
+2,Anna Gomez,"Barcelona, Spain",611234567,42,70000.0,Medium
+3,Charles Ruiz,"Valencia, Spain",622345678,29,45000.0,High
+4,Elena Fernandez,"Seville, Spain",633456789,50,80000.0,Low

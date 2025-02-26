@@ -1,0 +1,1 @@
+{"version":"0.1","connections":[{"details":{"protocol":"tds","address":{"server":"dp900pablo.sql.azuresynapse.net","database":"insuranse_xyz_DW"}},"storageMode":"DirectQuery"}]}

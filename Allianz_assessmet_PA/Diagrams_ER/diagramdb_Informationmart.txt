@@ -1,0 +1,59 @@
+Table Fact_Claims {
+  Claim_ID UUID [pk, ref: > Dim_Claims.Claim_ID]
+  Policy_ID UUID [ref: > Dim_Policies.Policy_ID]
+  Client_ID UUID [ref: > Dim_Clients.Client_ID]
+  Claim_Date DATE
+  Claim_Amount DECIMAL
+  Claim_Status VARCHAR
+  Fraud_Score FLOAT
+  Risk_Score FLOAT
+}
+
+Table Fact_Policies {
+  Policy_ID UUID [pk, ref: > Dim_Policies.Policy_ID]
+  Client_ID UUID [ref: > Dim_Clients.Client_ID]
+  Premium_Amount DECIMAL
+  Start_Date DATE
+  End_Date DATE
+  Policy_Type VARCHAR
+}
+
+Table Fact_Customer_Risk {
+  Client_ID UUID [pk, ref: > Dim_Clients.Client_ID]
+  Risk_Score FLOAT
+  Number_of_Claims INT
+  Premium_Amount DECIMAL
+  Economic_Index FLOAT
+  Weather_Conditions TEXT
+}
+
+Table Dim_Clients {
+  Client_ID UUID [pk]
+  Client_Name VARCHAR
+  Address VARCHAR
+  Phone VARCHAR
+  Birth_Date DATE
+  Risk_Category VARCHAR
+}
+
+Table Dim_Policies {
+  Policy_ID UUID [pk]
+  Policy_Type VARCHAR
+  Premium_Amount DECIMAL
+  Coverage_Details TEXT
+}
+
+Table Dim_Claims {
+  Claim_ID UUID [pk]
+  Claim_Date DATE
+  Claim_Amount DECIMAL
+  Cause VARCHAR
+  Claim_Status VARCHAR
+  Fraud_Score FLOAT
+}
+
+Table Dim_External_Factors {
+  External_Data_ID UUID [pk]
+  Economic_Index FLOAT
+  Weather_Conditions TEXT
+}

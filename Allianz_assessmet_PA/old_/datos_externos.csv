@@ -1,0 +1,4 @@
+id_dato_externo,tipo,descripcion,fuente
+1,Demográfico,Datos de ingresos y ocupación,INE España
+2,Económico,Índice de desempleo,Banco Central Europeo
+3,Meteorológico,Historial de tormentas,Agencia Meteorológica
