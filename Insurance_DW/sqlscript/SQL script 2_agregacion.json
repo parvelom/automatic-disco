@@ -1,0 +1,18 @@
+{
+	"name": "SQL script 2_agregacion",
+	"properties": {
+		"description": "Agregación de datos (SUM, COUNT, AVG, MIN, MAX)",
+		"content": {
+			"query": "-- Total de reclamaciones por cliente\nSELECT client_id, SUM(amount) AS total_claims\nFROM claims\nGROUP BY client_id;\n\n-- Promedio del importe de las reclamaciones\nSELECT AVG(amount) AS avg_claim_amount\nFROM claims;\n\n-- Cliente con la reclamación de mayor importe\nSELECT TOP 1 client_id, amount \nFROM claims\nORDER BY amount DESC;\n\n-- Número total de pólizas activas\nSELECT COUNT(*) AS active_policies\nFROM policies\nWHERE status = 'Active';\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "Database1",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

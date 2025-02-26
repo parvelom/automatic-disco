@@ -1,0 +1,13 @@
+{
+	"name": "PowerBIWorkspacePA",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"description": "validation ",
+		"annotations": [],
+		"type": "PowerBIWorkspace",
+		"typeProperties": {
+			"workspaceID": "Pbi_validation_pa",
+			"tenantID": "66d90ad3-f144-4dca-a7d6-d27d1fe26d9d"
+		}
+	}
+}

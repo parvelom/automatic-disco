@@ -1,0 +1,26 @@
+{
+	"name": "relationship-hhglybreag",
+	"properties": {
+		"Name": "relationship-hhglybreag",
+		"EntityType": "RELATIONSHIP",
+		"Namespace": {
+			"DatabaseName": "Database1"
+		},
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"FromTableName": "claims",
+		"ToTableName": "clients",
+		"ColumnRelationshipInformations": [
+			{
+				"FromColumnName": "client_id",
+				"ToColumnName": "client_id"
+			}
+		],
+		"RelationshipType": 0,
+		"PublishStatus": "PUBLISHED",
+		"ObjectVersion": 1,
+		"ObjectId": "fe05c722-f7ab-45a6-8036-fc668896a67b"
+	},
+	"type": "RELATIONSHIP"
+}

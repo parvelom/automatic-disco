@@ -1,0 +1,148 @@
+{
+	"name": "CopyPipeline_v7u",
+	"properties": {
+		"description": "copy data to SQL serverless",
+		"activities": [
+			{
+				"name": "Copy_v7u",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "data/raw-data/"
+					},
+					{
+						"name": "Destination",
+						"value": "dbo.Datavault"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"wildcardFileName": "*",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings",
+							"skipLineCount": 0
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"tableOption": "autoCreate"
+					},
+					"enableStaging": false,
+					"validateDataConsistency": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "claim_hk",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "claim_hk",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "claim_id",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "claim_id",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "policy_hk",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "policy_hk",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "customer_hk",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "customer_hk",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "load_date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "load_date",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "record_source",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "record_source",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_v7u",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_v7u",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-02-21T15:32:28Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

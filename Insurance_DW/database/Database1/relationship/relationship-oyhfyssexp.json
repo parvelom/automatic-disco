@@ -1,0 +1,26 @@
+{
+	"name": "relationship-oyhfyssexp",
+	"properties": {
+		"Name": "relationship-oyhfyssexp",
+		"EntityType": "RELATIONSHIP",
+		"Namespace": {
+			"DatabaseName": "Database1"
+		},
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"FromTableName": "fact_claims",
+		"ToTableName": "dim_product",
+		"ColumnRelationshipInformations": [
+			{
+				"FromColumnName": "product_id",
+				"ToColumnName": "product_id"
+			}
+		],
+		"RelationshipType": 0,
+		"PublishStatus": "PUBLISHED",
+		"ObjectVersion": 1,
+		"ObjectId": "8f2f3dd8-b71a-4dd8-9a50-88a3a657ddc7"
+	},
+	"type": "RELATIONSHIP"
+}

@@ -1,0 +1,25 @@
+{
+	"name": "Database2",
+	"properties": {
+		"Name": "Database2",
+		"EntityType": "DATABASE",
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"Properties": {
+			"IsSyMSCDMDatabase": true
+		},
+		"Source": {
+			"Provider": "ADLS",
+			"Location": "abfss://data@azdatadp900.dfs.core.windows.net/Database2",
+			"Properties": {
+				"FormatType": "csv",
+				"LinkedServiceName": "dp900pablo-WorkspaceDefaultStorage"
+			}
+		},
+		"PublishStatus": "PUBLISHED",
+		"ObjectVersion": 4,
+		"ObjectId": "827f91bb-f32a-4e26-81a8-de1511792ae3"
+	},
+	"type": "DATABASE"
+}

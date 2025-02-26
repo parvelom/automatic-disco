@@ -1,0 +1,26 @@
+{
+	"name": "relationship-xiqdvjdoss",
+	"properties": {
+		"Name": "relationship-xiqdvjdoss",
+		"EntityType": "RELATIONSHIP",
+		"Namespace": {
+			"DatabaseName": "Database1"
+		},
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"FromTableName": "fact_claims",
+		"ToTableName": "dim_time",
+		"ColumnRelationshipInformations": [
+			{
+				"FromColumnName": "date_id",
+				"ToColumnName": "date_id"
+			}
+		],
+		"RelationshipType": 0,
+		"PublishStatus": "PUBLISHED",
+		"ObjectVersion": 1,
+		"ObjectId": "d59e9fa1-6f1c-4aa2-85c8-4d7dd9ba32bb"
+	},
+	"type": "RELATIONSHIP"
+}

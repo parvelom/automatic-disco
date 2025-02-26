@@ -1,0 +1,26 @@
+{
+	"name": "relationship-vpkfdvybkb",
+	"properties": {
+		"Name": "relationship-vpkfdvybkb",
+		"EntityType": "RELATIONSHIP",
+		"Namespace": {
+			"DatabaseName": "Database1"
+		},
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"FromTableName": "fact_claims",
+		"ToTableName": "clients",
+		"ColumnRelationshipInformations": [
+			{
+				"FromColumnName": "client_id",
+				"ToColumnName": "client_id"
+			}
+		],
+		"RelationshipType": 0,
+		"PublishStatus": "PUBLISHED",
+		"ObjectVersion": 1,
+		"ObjectId": "bf3a41b6-c7c1-4cd2-8066-e9ea79791ddd"
+	},
+	"type": "RELATIONSHIP"
+}

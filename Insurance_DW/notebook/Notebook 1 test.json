@@ -1,0 +1,209 @@
+{
+	"name": "Notebook 1 test",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "Segurosxyzpool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "1a30aa6a-df72-4ecd-9cc6-6a240e6a6e12"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/e5078961-5da3-4efa-b22d-b667f0a5115f/resourceGroups/trainingDP/providers/Microsoft.Synapse/workspaces/dp900pablo/bigDataPools/Segurosxyzpool",
+				"name": "Segurosxyzpool",
+				"type": "Spark",
+				"endpoint": "https://dp900pablo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/Segurosxyzpool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"from pyspark.sql import SparkSession\n",
+					"from pyspark.sql.functions import col, to_date, when\n",
+					"\n",
+					"# Crear sesión de Spark\n",
+					"spark = SparkSession.builder.appName(\"ETL_Claims\").getOrCreate()\n",
+					"\n",
+					"# Configurar las credenciales de acceso para Azure Blob Storage\n",
+					"spark.conf.set(\"fs.azure.account.key.azdatadp900.blob.core.windows.net\", \"sp=r&st=2025-02-23T15:36:28Z&se=2025-02-23T23:36:28Z&spr=https&sv=2022-11-02&sr=c&sig=vO%2BSLZG%2B%2BCoClsCsDIpVc9V9NHejdJVuhtLzPT79IcU%3D\")\n",
+					"\n",
+					"# Definir las rutas de los archivos en el Data Lake\n",
+					"clients_path = \"wasbs://data@azdatadp900.blob.core.windows.net/raw-data/clients.csv\"\n",
+					"policies_path = \"wasbs://data@azdatadp900.blob.core.windows.net/raw-data/policies.csv\"\n",
+					"claims_path = \"wasbs://data@azdatadp900.blob.core.windows.net/raw-data/claims.csv\"\n",
+					"\n",
+					"# Función para cargar datos con manejo de errores\n",
+					"def load_data(path):\n",
+					"    try:\n",
+					"        return spark.read.format(\"csv\").option(\"header\", \"true\").option(\"inferSchema\", \"true\").load(path)\n",
+					"    except Exception as e:\n",
+					"        print(f\"Error loading data from {path}: {e}\")\n",
+					"        return None\n",
+					"\n",
+					"# Cargar los datos desde el Data Lake con configuración adecuada\n",
+					"df_clients = load_data(clients_path)\n",
+					"df_policies = load_data(policies_path)\n",
+					"df_claims = load_data(claims_path)\n",
+					"\n",
+					"# Verificar que los DataFrames se hayan cargado correctamente\n",
+					"if df_clients is None or df_policies is None or df_claims is None:\n",
+					"    print(\"Error: One or more DataFrames could not be loaded. Please check the paths and permissions.\")\n",
+					"else:\n",
+					"    # Transformaciones: Limpiar y Formatear Datos\n",
+					"    df_claims = df_claims.withColumn(\"claim_date\", to_date(col(\"claim_date\"), \"yyyy-MM-dd\"))\n",
+					"    df_claims = df_claims.withColumn(\"fraud_detected\", when(col(\"fraud_detected\") == \"Yes\", 1).otherwise(0))\n",
+					"\n",
+					"    # Unir datos de clientes, pólizas y reclamaciones\n",
+					"    df_fact_claims = df_claims.join(df_clients, \"client_id\", \"left\")\\\n",
+					"                               .join(df_policies, \"policy_id\", \"left\")\\\n",
+					"                               .select(\"claim_id\", \"client_id\", \"policy_id\", \"claim_date\", \"amount\", \"fraud_detected\")\n",
+					"\n",
+					"    # Guardar los datos transformados en CSV con encabezados\n",
+					"    df_fact_claims.write.mode(\"overwrite\")\\\n",
+					"                        .option(\"header\", \"true\")\\\n",
+					"                        .option(\"quoteAll\", \"true\")\\\n",
+					"                        .csv(\"wasbs://data@azdatadp900.blob.core.windows.net/raw-data/fact_claims\")\n",
+					"\n",
+					"    print(\"ETL Process Completed Successfully!\")"
+				]
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql import SparkSession\n",
+					"from pyspark.sql.functions import col, to_date, when\n",
+					"\n",
+					"# Crear sesión de Spark\n",
+					"spark = SparkSession.builder.appName(\"ETL_Claims\").getOrCreate()\n",
+					"\n",
+					"# Definir las rutas de los archivos en el Data Lake\n",
+					"clients_path = \"wasbs://data@azdatadp900.blob.core.windows.net/raw-data/clients.csv\"\n",
+					"policies_path = \"wasbs://data@azdatadp900.blob.core.windows.net/raw-data/policies.csv\"\n",
+					"claims_path = \"wasbs://data@azdatadp900.blob.core.windows.net/raw-data/claims.csv\"\n",
+					"\n",
+					"# Función para cargar datos con manejo de errores\n",
+					"def load_data(path):\n",
+					"    try:\n",
+					"        return spark.read.format(\"csv\").option(\"header\", \"true\").option(\"inferSchema\", \"true\").load(path)\n",
+					"    except Exception as e:\n",
+					"        print(f\"Error loading data from {path}: {e}\")\n",
+					"        return None\n",
+					"\n",
+					""
+				],
+				"execution_count": 43
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"from pyspark.sql import SparkSession\n",
+					"from pyspark.sql.functions import col, to_date, when\n",
+					"\n",
+					"# Crear sesión de Spark\n",
+					"spark = SparkSession.builder.appName(\"ETL_Claims\").getOrCreate()\n",
+					"\n",
+					"# Configurar las credenciales de acceso para Azure Blob Storage\n",
+					"spark.conf.set(\"fs.azure.account.auth.type.azdatadp900.dfs.core.windows.net\", \"SAS\")\n",
+					"spark.conf.set(\"fs.azure.sas.data.azdatadp900.dfs.core.windows.net\", \"sp=r&st=2025-02-23T15:36:28Z&se=2025-02-23T23:36:28Z&spr=https&sv=2022-11-02&sr=c&sig=vO%2BSLZG%2B%2BCoClsCsDIpVc9V9NHejdJVuhtLzPT79IcU%3D\")\n",
+					"\n",
+					"# Definir la ruta del Data Lake\n",
+					"data_lake_path = \"abfss://data@azdatadp900.dfs.core.windows.net/\"\n",
+					"\n",
+					"# Verificar la ruta del Data Lake\n",
+					"print(f\"Data Lake Path: {data_lake_path}\")\n",
+					"\n",
+					"# Función para cargar datos con manejo de errores\n",
+					"def load_data(path):\n",
+					"    try:\n",
+					"        return spark.read.format(\"csv\").option(\"header\", \"true\").option(\"inferSchema\", \"true\").load(path)\n",
+					"    except Exception as e:\n",
+					"        print(f\"Error loading data from {path}: {e}\")\n",
+					"        return None\n",
+					"\n",
+					"# Cargar los datos desde el Data Lake con configuración adecuada\n",
+					"df_clients = load_data(f\"{data_lake_path}clients.csv\")\n",
+					"df_policies = load_data(f\"{data_lake_path}policies.csv\")\n",
+					"df_claims = load_data(f\"{data_lake_path}claims.csv\")\n",
+					"\n",
+					"# Verificar que los DataFrames se hayan cargado correctamente\n",
+					"if df_clients is None or df_policies is None or df_claims is None:\n",
+					"    print(\"Error: One or more DataFrames could not be loaded. Please check the paths and permissions.\")\n",
+					"else:\n",
+					"    # Transformaciones: Limpiar y Formatear Datos\n",
+					"    df_claims = df_claims.withColumn(\"claim_date\", to_date(col(\"claim_date\"), \"yyyy-MM-dd\"))\n",
+					"    df_claims = df_claims.withColumn(\"fraud_detected\", when(col(\"fraud_detected\") == \"Yes\", 1).otherwise(0))\n",
+					"\n",
+					"    # Unir datos de clientes, pólizas y reclamaciones\n",
+					"    df_fact_claims = df_claims.join(df_clients, \"client_id\", \"left\")\\\n",
+					"                               .join(df_policies, \"policy_id\", \"left\")\\\n",
+					"                               .select(\"claim_id\", \"client_id\", \"policy_id\", \"claim_date\", \"amount\", \"fraud_detected\")\n",
+					"\n",
+					"    # Guardar los datos transformados en CSV con encabezados\n",
+					"    df_fact_claims.write.mode(\"overwrite\")\\\n",
+					"                        .option(\"header\", \"true\")\\\n",
+					"                        .option(\"quoteAll\", \"true\")\\\n",
+					"                        .csv(f\"{data_lake_path}fact_claims\")\n",
+					"\n",
+					"    print(\"ETL Process Completed Successfully!\")"
+				],
+				"execution_count": 46
+			}
+		]
+	}
+}

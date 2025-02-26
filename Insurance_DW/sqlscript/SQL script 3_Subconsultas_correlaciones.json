@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 3_Subconsultas_correlaciones",
+	"properties": {
+		"content": {
+			"query": "-- Obtener los clientes que han hecho al menos una reclamación\nSELECT * FROM clients\nWHERE client_id IN (SELECT DISTINCT client_id FROM claims);\n\n-- Obtener el cliente con el mayor número de pólizas activas\nSELECT TOP 1 client_id, COUNT(*) AS num_policies\nFROM policies\nWHERE status = 'Active'\nGROUP BY client_id\nORDER BY num_policies DESC;\n\n-- Obtener el tipo de póliza más caro en promedio\nSELECT insurance_type\nFROM policies\nWHERE premium = (SELECT MAX(premium) FROM policies);\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "Database1",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

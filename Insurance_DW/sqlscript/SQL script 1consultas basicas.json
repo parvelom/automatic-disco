@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 1consultas basicas",
+	"properties": {
+		"content": {
+			"query": "-- Obtener todos los clientes\nSELECT * FROM clients;\n\n-- Obtener las pólizas activas de un cliente específico\nSELECT * \nFROM policies \nWHERE client_id = 1 AND status = 'Active';\n\n-- Obtener todas las reclamaciones superiores a 5000€\nSELECT * \nFROM claims \nWHERE amount > 5000 \nORDER BY amount DESC;\n\n-- Obtener todas las pólizas y sus clientes (JOIN)\nSELECT c.client_id, c.name, p.policy_id, p.insurance_type, p.status \nFROM clients c\nJOIN policies p ON c.client_id = p.client_id;\n\n-- Obtener el número de pólizas por tipo de seguro\nSELECT insurance_type, COUNT(*) AS total_policies\nFROM policies\nGROUP BY insurance_type;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "Database1",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,26 @@
+{
+	"name": "relationship-dtnkqkncjv",
+	"properties": {
+		"Name": "relationship-dtnkqkncjv",
+		"EntityType": "RELATIONSHIP",
+		"Namespace": {
+			"DatabaseName": "Database1"
+		},
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"FromTableName": "external_data",
+		"ToTableName": "claims_external_data",
+		"ColumnRelationshipInformations": [
+			{
+				"FromColumnName": "external_data_id",
+				"ToColumnName": "external_data_id"
+			}
+		],
+		"RelationshipType": 0,
+		"PublishStatus": "PUBLISHED",
+		"ObjectVersion": 1,
+		"ObjectId": "f2fbfb41-aff2-4abc-a84d-b5813f30e8bc"
+	},
+	"type": "RELATIONSHIP"
+}

@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 6_ETL_test",
+	"properties": {
+		"content": {
+			"query": "\n--simple SQL ETL process\nCREATE EXTERNAL TABLE fact_claims_aux (\n    claim_id INT,\n    client_id INT,\n    policy_id INT,\n    claim_date DATE,\n    amount DECIMAL(10, 2),\n    fraud_detected STRING_DELIMITER\n\n\nINSERT INTO fact_claims_aux\nSELECT \n    c.claim_id,\n    c.client_id,\n    RIGHT (c.policy_id, CHARINDEX('10', c.policy_id)) as product_id, \n    c.date AS date_id,\n    c.amount,\n    c.cause,\n    CASE WHEN c.fraud_detected = 0 THEN 'no' ELSE 'yes' END AS fraud_detected\nFROM \n    claims c\nJOIN \n    clients cl ON c.client_id = cl.client_id\nJOIN \n    policies p ON c.policy_id = p.policy_id\n\n\n-- Verificar los datos insertados\nSELECT * FROM fact_claims;\n\n\n-- Verificar los datos insertados\nSELECT * FROM claims;\n\nselect * from dim_location dl \nSELECT * FROM clients;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "Database1",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

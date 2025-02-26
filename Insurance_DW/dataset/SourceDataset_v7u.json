@@ -1,0 +1,49 @@
+{
+	"name": "SourceDataset_v7u",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "raw-data",
+				"container": "data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "claim_hk",
+				"type": "String"
+			},
+			{
+				"name": "claim_id",
+				"type": "String"
+			},
+			{
+				"name": "policy_hk",
+				"type": "String"
+			},
+			{
+				"name": "customer_hk",
+				"type": "String"
+			},
+			{
+				"name": "load_date",
+				"type": "String"
+			},
+			{
+				"name": "record_source",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

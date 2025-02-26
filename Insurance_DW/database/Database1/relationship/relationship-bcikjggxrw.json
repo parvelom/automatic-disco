@@ -1,0 +1,26 @@
+{
+	"name": "relationship-bcikjggxrw",
+	"properties": {
+		"Name": "relationship-bcikjggxrw",
+		"EntityType": "RELATIONSHIP",
+		"Namespace": {
+			"DatabaseName": "Database1"
+		},
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"FromTableName": "fact_claims",
+		"ToTableName": "dim_location",
+		"ColumnRelationshipInformations": [
+			{
+				"FromColumnName": "location_id",
+				"ToColumnName": "location_id"
+			}
+		],
+		"RelationshipType": 0,
+		"PublishStatus": "PUBLISHED",
+		"ObjectVersion": 1,
+		"ObjectId": "8bfa0d9c-6db9-40a0-ae91-ab719ce5c29d"
+	},
+	"type": "RELATIONSHIP"
+}

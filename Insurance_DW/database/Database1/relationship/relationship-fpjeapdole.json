@@ -1,0 +1,26 @@
+{
+	"name": "relationship-fpjeapdole",
+	"properties": {
+		"Name": "relationship-fpjeapdole",
+		"EntityType": "RELATIONSHIP",
+		"Namespace": {
+			"DatabaseName": "Database1"
+		},
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"FromTableName": "claims_external_data",
+		"ToTableName": "claims",
+		"ColumnRelationshipInformations": [
+			{
+				"FromColumnName": "claim_id",
+				"ToColumnName": "claim_id"
+			}
+		],
+		"RelationshipType": 0,
+		"PublishStatus": "PUBLISHED",
+		"ObjectVersion": 1,
+		"ObjectId": "05c5fd8d-a7cf-4fdf-afa5-996205b87097"
+	},
+	"type": "RELATIONSHIP"
+}

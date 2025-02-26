@@ -1,0 +1,18 @@
+{
+	"name": "SQL script 5_Funciones_fechas_cadenas",
+	"properties": {
+		"description": "Funciones de ventana  Manipulación de cadenas y fechas",
+		"content": {
+			"query": "-- Ordenar las reclamaciones por importe y asignar un ranking\nSELECT claim_id, client_id, amount,\n       RANK() OVER (ORDER BY amount DESC) AS rank_claim\nFROM claims;\n\n-- Calcular el promedio acumulado del importe de reclamaciones por cliente\nSELECT client_id, claim_id, amount, \n       AVG(amount) OVER (PARTITION BY client_id ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS running_avg\nFROM claims;\n\n-- Obtener el nombre y solo el primer apellido del cliente\nSELECT name, LEFT (name, CHARINDEX(' ', name)) AS first_name\nFROM clients;\n\n-- Formatear la fecha de reclamación como ‘YYYY-MM’\nSELECT claim_id, FORMAT(date, 'yyyy-MM') AS claim_month\nFROM claims;\n\n-- Extraer el año y el mes de una reclamación\nSELECT claim_id, YEAR(date) AS claim_year, MONTH(date) AS claim_month\nFROM claims;\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "Database1",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

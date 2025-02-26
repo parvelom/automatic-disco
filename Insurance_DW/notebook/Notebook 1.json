@@ -1,0 +1,91 @@
+{
+	"name": "Notebook 1",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "Segurosxyzpool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "9ba98c00-3379-4087-9659-2985dcd2d11f"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/e5078961-5da3-4efa-b22d-b667f0a5115f/resourceGroups/trainingDP/providers/Microsoft.Synapse/workspaces/dp900pablo/bigDataPools/Segurosxyzpool",
+				"name": "Segurosxyzpool",
+				"type": "Spark",
+				"endpoint": "https://dp900pablo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/Segurosxyzpool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql import SparkSession\n",
+					"from pyspark.sql.types import StructType, StructField, IntegerType, StringType, TimestampType\n",
+					"\n",
+					"# Inicializar sesión Spark\n",
+					"spark = SparkSession.builder.getOrCreate()\n",
+					"\n",
+					"# Crear sesión de Spark\n",
+					"spark = SparkSession.builder.appName(\"ETL_Claims\").getOrCreate()\n",
+					"\n",
+					"# Configurar las credenciales de acceso para Azure Blob Storage\n",
+					"spark.conf.set(\"fs.azure.account.auth.type.azdatadp900.dfs.core.windows.net\", \"SAS\")\n",
+					"spark.conf.set(\"fs.azure.sas.data.azdatadp900.dfs.core.windows.net\", \"sp=r&st=2025-02-23T15:36:28Z&se=2025-02-23T23:36:28Z&spr=https&sv=2022-11-02&sr=c&sig=vO%2BSLZG%2B%2BCoClsCsDIpVc9V9NHejdJVuhtLzPT79IcU%3D\")\n",
+					"\n",
+					"# Definir la ruta del Data Lake\n",
+					"data_lake_path = \"abfss://data@azdatadp900.dfs.core.windows.net/\"\n",
+					"\n",
+					"# Verificar la ruta del Data Lake\n",
+					"print(f\"Data Lake Path: {data_lake_path}\")\n",
+					"\n",
+					"# Función para cargar datos con manejo de errores\n",
+					"def load_data(path):\n",
+					"    try:\n",
+					"        return spark.read.format(\"csv\").option(\"header\", \"true\").option(\"inferSchema\", \"true\").load(path)\n",
+					"    except Exception as e:\n",
+					"        print(f\"Error loading data from {path}: {e}\")\n",
+					"        return None\n",
+					"\n",
+					"# Cargar los datos desde el Data Lake con configuración adecuada\n",
+					"df_clients = load_data(f\"{data_lake_path}clients.csv\")\n",
+					"df_policies = load_data(f\"{data_lake_path}policies.csv\")\n",
+					"df_claims = load_data(f\"{data_lake_path}claims.csv\")"
+				],
+				"execution_count": 3
+			}
+		]
+	}
+}

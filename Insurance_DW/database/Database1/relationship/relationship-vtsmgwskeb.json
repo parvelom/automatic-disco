@@ -1,0 +1,26 @@
+{
+	"name": "relationship-vtsmgwskeb",
+	"properties": {
+		"Name": "relationship-vtsmgwskeb",
+		"EntityType": "RELATIONSHIP",
+		"Namespace": {
+			"DatabaseName": "Database1"
+		},
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"FromTableName": "fact_claims",
+		"ToTableName": "claims",
+		"ColumnRelationshipInformations": [
+			{
+				"FromColumnName": "claim_id",
+				"ToColumnName": "claim_id"
+			}
+		],
+		"RelationshipType": 0,
+		"PublishStatus": "PUBLISHED",
+		"ObjectVersion": 1,
+		"ObjectId": "ed7db8dc-e789-4685-94c3-b1f26caf693c"
+	},
+	"type": "RELATIONSHIP"
+}

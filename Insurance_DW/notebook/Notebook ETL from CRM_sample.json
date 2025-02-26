@@ -1,0 +1,104 @@
+{
+	"name": "Notebook ETL from CRM_sample",
+	"properties": {
+		"description": "ETL from CRM_sample to Insuranse_xyz_DW",
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "Segurosxyzpool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "3cc633be-abd7-4594-b433-b4e3d56ed23c"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/e5078961-5da3-4efa-b22d-b667f0a5115f/resourceGroups/trainingDP/providers/Microsoft.Synapse/workspaces/dp900pablo/bigDataPools/Segurosxyzpool",
+				"name": "Segurosxyzpool",
+				"type": "Spark",
+				"endpoint": "https://dp900pablo.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/Segurosxyzpool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql import SparkSession\n",
+					"from pyspark.sql.functions import col, to_date, lit, current_timestamp\n",
+					"\n",
+					"# Configurar la sesión de Spark con conexión a Azure Synapse\n",
+					"spark = SparkSession.builder \\\n",
+					"    .appName(\"ETL_Insurance_XYZ\") \\\n",
+					"    .config(\"spark.sql.catalog.database1\", \"database1\") \\\n",
+					"    .config(\"spark.sql.catalog.insurance_xyz_DW\", \"insuranse_xyz_DW\") \\\n",
+					"    .getOrCreate()\n",
+					"\n",
+					"# Extracción de datos desde database1 (CRM) usando read.table()\n",
+					"clients_df = spark.read.table(\"database1.clients\")\n",
+					"policies_df = spark.read.table(\"database1.policies\")\n",
+					"claims_df = spark.read.table(\"database1.claims\")\n",
+					"external_factors_df = spark.read.table(\"database1.external_factors\")\n",
+					"\n",
+					"# Transformaciones: limpieza y formateo\n",
+					"def clean_dataframe(df):\n",
+					"    return df.dropDuplicates().na.fill(\"Unknown\")\n",
+					"\n",
+					"clients_df = clean_dataframe(clients_df)\n",
+					"policies_df = clean_dataframe(policies_df)\n",
+					"claims_df = clean_dataframe(claims_df)\n",
+					"external_factors_df = clean_dataframe(external_factors_df)\n",
+					"\n",
+					"# Convertir fechas a formato adecuado\n",
+					"claims_df = claims_df.withColumn(\"Claim_Date\", to_date(col(\"Claim_Date\"), \"yyyy-MM-dd\"))\n",
+					"policies_df = policies_df.withColumn(\"Start_Date\", to_date(col(\"Start_Date\"), \"yyyy-MM-dd\"))\n",
+					"policies_df = policies_df.withColumn(\"End_Date\", to_date(col(\"End_Date\"), \"yyyy-MM-dd\"))\n",
+					"\n",
+					"# Enriquecimiento de datos: agregar columna de timestamp de carga\n",
+					"clients_df = clients_df.withColumn(\"Load_Timestamp\", current_timestamp())\n",
+					"policies_df = policies_df.withColumn(\"Load_Timestamp\", current_timestamp())\n",
+					"claims_df = claims_df.withColumn(\"Load_Timestamp\", current_timestamp())\n",
+					"external_factors_df = external_factors_df.withColumn(\"Load_Timestamp\", current_timestamp())\n",
+					"\n",
+					"# Carga en el Data Warehouse insuranse_xyz_DW bajo el esquema dbo y prefijo Hub_\n",
+					"clients_df.write.mode(\"overwrite\").format(\"delta\").saveAsTable(\"insuranse_xyz_DW.dbo.Hub_clients\")\n",
+					"policies_df.write.mode(\"overwrite\").format(\"delta\").saveAsTable(\"insuranse_xyz_DW.dbo.Hub_policies\")\n",
+					"claims_df.write.mode(\"overwrite\").format(\"delta\").saveAsTable(\"insuranse_xyz_DW.dbo.Hub_claims\")\n",
+					"external_factors_df.write.mode(\"overwrite\").format(\"delta\").saveAsTable(\"insuranse_xyz_DW.dbo.Hub_external_factors\")\n",
+					"\n",
+					"print(\"ETL completado exitosamente\")\n",
+					""
+				]
+			}
+		]
+	}
+}

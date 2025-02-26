@@ -1,0 +1,26 @@
+{
+	"name": "relationship-jkhpuauguu",
+	"properties": {
+		"Name": "relationship-jkhpuauguu",
+		"EntityType": "RELATIONSHIP",
+		"Namespace": {
+			"DatabaseName": "Database1"
+		},
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"FromTableName": "claims",
+		"ToTableName": "policies",
+		"ColumnRelationshipInformations": [
+			{
+				"FromColumnName": "policy_id",
+				"ToColumnName": "policy_id"
+			}
+		],
+		"RelationshipType": 0,
+		"PublishStatus": "PUBLISHED",
+		"ObjectVersion": 1,
+		"ObjectId": "57e40c8e-9120-4372-913a-af81438254f3"
+	},
+	"type": "RELATIONSHIP"
+}
